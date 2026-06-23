@@ -175,6 +175,17 @@ class AppManager: NSObject {
 
     private(set) public var isSIPEnabled: Bool = true
 
+    // On macOS Sequoia and later, SIP enforces valid code signatures, so we deep ad-hoc re-sign
+    // the patched iTunes ourselves during install instead of asking the user to lower SIP. Skip
+    // the re-sign when SIP is already off (unsigned code runs fine) or when the user opts out via
+    // the "PreserveiTunesSignature" default.
+    var shouldResignPatchediTunes: Bool {
+        if !osAtLeastSequoia { return false }
+        if !isSIPEnabled { return false }
+        if UserDefaults.standard.bool(forKey: "PreserveiTunesSignature") { return false }
+        return true
+    }
+
     private override init() {
         super.init()
         if let path = Bundle.main.path(forResource: "SupportPath", ofType: "plist"),
@@ -427,9 +438,6 @@ class AppManager: NSObject {
     }
 
     var supportedApps: [AppType] {
-        if osAtLeastSequoia {
-            return [.itunes]
-        }
         if osAtLeastCatalina {
             return [.aperture, .iphoto, .itunes]
         }
@@ -443,9 +451,11 @@ class AppManager: NSObject {
     }
     
     var getStartedSubTitle: String {
+        #if false
         if osAtLeastSequoia {
             return "You can install iTunes using Retroactive.".localized()
         }
+        #endif
         if osAtLeastCatalina {
             return "Unlock Aperture and iPhoto, or install iTunes.".localized()
         }

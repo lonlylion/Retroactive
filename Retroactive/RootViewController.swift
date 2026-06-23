@@ -46,11 +46,10 @@ class RootViewController: NSViewController, CCNNavigationControllerDelegate, NSW
             AppDelegate.showOptionSheet(title: "Retroactive has been discontinued.".localized(),
                                         text: "You should transition from Retroactive to a wide range of supported apps, many of which are built into macOS or free to download.".localized(),
                                         firstButtonText: "Learn More".localized(),
-                                        secondButtonText: "Cancel".localized(),
+                                        secondButtonText: "OK".localized(),
                                         thirdButtonText: "") { (response) in
                 if (response == .alertFirstButtonReturn) {
                     AppDelegate.current.safelyOpenURL("https://github.com/cormiertyshawn895/Retroactive/blob/master/TRANSITION.md")
-                    NSApplication.shared.terminate(self)
                 }
             }
             return

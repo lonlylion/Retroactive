@@ -300,6 +300,14 @@ class ProgressViewController: NSViewController, URLSessionDelegate, URLSessionDa
                 self.runTask(toolPath: "/usr/bin/ditto", arguments: ["-xk", "\(resourcePath)/Python.framework.zip", pythonPath])
             }
 
+            // macOS 26 dropped a symbol (ILAppDefFolderPluginIdentifier) from the system
+            // iLifeMediaBrowser; bundle a thin shim that re-exports it and supplies the symbol.
+            let mediaBrowserPath = "\(appPath)/Contents/Frameworks/iLifeMediaBrowser.framework"
+            if (osAtLeastSequoia) {
+                self.runTaskAtTemp(toolPath: "/bin/rm", arguments: ["-rf", mediaBrowserPath])
+                self.runTask(toolPath: "/bin/cp", arguments: ["-R", "\(resourcePath)/iLifeMediaBrowserShim", mediaBrowserPath])
+            }
+
             self.stage3Started()
             let originalPluginManagerPath = "/Library/Frameworks/PluginManager.framework/Versions/B/PluginManager"
             let patchedPluginManagerPath = "@executable_path/../Frameworks/PluginManager.framework/Versions/B/PluginManager"
@@ -318,6 +326,9 @@ class ProgressViewController: NSViewController, URLSessionDelegate, URLSessionDa
             }
             ProgressViewController.runTask(toolPath: "install_name_tool_packed", arguments: ["-change", resolvedOldAppKitArg, resolvedNewAppKitArg, "\(appPath)/Contents/Frameworks/ProKit.framework/Versions/A/ProKit"], path: resourcePath)
             ProgressViewController.runTask(toolPath: "install_name_tool_packed", arguments: ["-change", resolvedOldAppKitArg, resolvedNewAppKitArg, "\(appPath)/Contents/Frameworks/iLifeKit.framework/Versions/A/iLifeKit"], path: resourcePath)
+            if (osAtLeastSequoia) {
+                ProgressViewController.runTask(toolPath: "install_name_tool_packed", arguments: ["-change", "/System/Library/PrivateFrameworks/iLifeMediaBrowser.framework/Versions/A/iLifeMediaBrowser", "@executable_path/../Frameworks/iLifeMediaBrowser.framework/Versions/A/iLifeMediaBrowser", "\(appPath)/Contents/MacOS/\(AppManager.shared.binaryNameOfChosenApp)"], path: resourcePath)
+            }
             ProgressViewController.runTask(toolPath: "insert_dylib", arguments: [AppManager.shared.fixerBinaryRelativeToExecutablePath, "\(appPath)/Contents/MacOS/\(AppManager.shared.binaryNameOfChosenApp)", "--inplace"], path: resourcePath)
             if let patchedBundleID = AppManager.shared.patchedBundleIDOfChosenApp {
                 self.runTask(toolPath: "/usr/bin/plutil", arguments: ["-replace", kCFBundleIdentifier, "-string", patchedBundleID, "Contents/Info.plist"])
@@ -762,6 +773,22 @@ class ProgressViewController: NSViewController, URLSessionDelegate, URLSessionDa
                     }
                 }
             }
+            // macOS Sequoia (15) and later enforce valid code signatures with SIP enabled. The
+            // nested iTunes.app and its frameworks are copied (and the App Store build's Assets.car
+            // is patched) after the launcher was signed, so they're left unsigned. Deep ad-hoc
+            // re-sign everything inner-out so iTunes launches without being killed for a bad
+            // signature (skipped when SIP is off or the user opts out — see shouldResignPatchediTunes).
+            if (AppManager.shared.shouldResignPatchediTunes) {
+                let nestediTunesApp = "\(appPath)/Contents/MacOS/iTunes.app"
+                if let frameworks = try? FileManager.default.contentsOfDirectory(atPath: inAppFrameworksPath) {
+                    for framework in frameworks where framework.hasSuffix(".framework") {
+                        self.runTask(toolPath: "/usr/bin/codesign", arguments: ["--force", "--sign", "-", "\(inAppFrameworksPath)/\(framework)"])
+                    }
+                }
+                self.runTask(toolPath: "/usr/bin/codesign", arguments: ["--force", "--sign", "-", nestediTunesApp])
+                self.runTask(toolPath: "/usr/bin/codesign", arguments: ["--force", "--deep", "--sign", "-", appPath])
+            }
+
             self.runTaskAtTemp(toolPath: "/usr/bin/touch", arguments: [appPath])
             self.runTask(toolPath: "/usr/bin/xattr", arguments: ["-d", "com.apple.quarantine", "\(appPath)"])
 

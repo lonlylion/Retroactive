@@ -294,6 +294,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     static func pushSIPVC() -> Bool {
+        // macOS Sequoia and later: we deep re-sign the patched iTunes ourselves during install
+        // (including iTunes 12.9.5), so never ask the user to lower SIP.
+        if osAtLeastSequoia {
+            return false
+        }
         if AppManager.shared.choseniTunesVersion == .darkMode && AppManager.shared.isTranslated && AppManager.shared.isSIPEnabled {
             let sheetViewController = SheetViewController.instantiate()
             sheetViewController.guidanceType = .asLowering

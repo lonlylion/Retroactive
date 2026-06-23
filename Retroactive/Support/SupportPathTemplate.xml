@@ -5,15 +5,18 @@
 	<key>NewVersionVisibleTitle</key>
     <string>Retroactive has been discontinued. Retroactive $(VERSION) is the final version.</string>
 	<key>NewVersionChangelog</key>
-    <string>• Adds instructions to transition from Retroactive to supported apps</string>
+    <string>• Adds support for macOS Golden Gate, macOS Tahoe, and macOS Sequoia
+• Adds instructions to transition from Retroactive to supported apps</string>
 	<key>NewVersionVisibleTitlezhHans</key>
 	<string>解印已停止服务。解印 $(VERSION_HANS) 是最终版本。</string>
 	<key>NewVersionChangelogzhHans</key>
-    <string>• 新增了指导步骤，帮助用户从解印过渡到受支持的应用程序</string>
+    <string>• 新增对 macOS Golden Gate、macOS Tahoe 和 macOS Sequoia 的支持
+• 新增了指导步骤，帮助用户从解印过渡到受支持的应用程序</string>
 	<key>NewVersionVisibleTitlezhHant</key>
 	<string>解印已停止服務。解印 $(VERSION_HANT) 是最終版本。</string>
 	<key>NewVersionChangelogzhHant</key>
-    <string>• 新增了指導步驟，幫助用戶從解印過渡到受支援的應用程式</string>
+    <string>• 新增 macOS Golden Gate、macOS Tahoe 和 macOS Sequoia 的支援
+• 新增了指導步驟，幫助用戶從解印過渡到受支援的應用程式</string>
 	<key>LatestZIP</key>
 	<string>https://github.com/cormiertyshawn895/Retroactive/releases/download/$(MARKETING_VERSION)/Retroactive.$(MARKETING_VERSION).zip</string>
 	<key>LatestBuildNumber</key>

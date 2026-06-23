@@ -1,6 +1,6 @@
 ## Transition from Retroactive to supported apps
 
-Retroactive has been discontinued, and does not support macOS Sequoia or later. You should transition from Retroactive to a wide range of supported apps, many of which are built into macOS or free to download.
+With [Rosetta 2 being removed](https://support.apple.com/102527), Retroactive will not support macOS 28 or later. You should transition from Retroactive to a wide range of supported apps, many of which are built into macOS or free to download.
 
 #### iTunes
 
@@ -19,7 +19,7 @@ Retroactive has been discontinued, and does not support macOS Sequoia or later. 
 
 ## Retroactive
 
-While Retroactive does not support macOS Sequoia or later, you can still use Retroactive to run Aperture, iPhoto, and iTunes on macOS Sonoma, macOS Ventura, macOS Monterey, macOS Big Sur, and macOS Catalina. Xcode 11.7 on macOS Mojave. Final Cut Pro 7, Logic Pro 9, and iWork ’09 on macOS Mojave or macOS High Sierra.
+While Retroactive will not support macOS 28 or later, you can still use Retroactive to run Aperture, iPhoto, and iTunes on macOS Golden Gate, macOS Tahoe, macOS Sequoia, macOS Sonoma, macOS Ventura, macOS Monterey, macOS Big Sur, and macOS Catalina. Xcode 11.7 on macOS Mojave. Final Cut Pro 7, Logic Pro 9, and iWork ’09 on macOS Mojave or macOS High Sierra.
 
 <p align="center">
   <a href="https://github.com/cormiertyshawn895/Retroactive/releases/download/2.1/Retroactive.2.1.zip" alt="Download Retroactive"><img width="282" height="68" src="screenshots/resources/download-button.png" alt="Download Retroactive"></a>
@@ -41,9 +41,9 @@ Retroactive will not harm your Mac. This alert only shows up because Retroactive
 
 ### Picking an app
 
-Retroactive has been discontinued, and does not support macOS Sequoia or later.
+With [Rosetta 2 being removed](https://support.apple.com/102527), Retroactive will not support macOS 28 or later.
 
-On macOS Sonoma, macOS Ventura, macOS Monterey, macOS Big Sur, and macOS Catalina, Retroactive can unlock Aperture and iPhoto, or install iTunes. Pick the app you want to run. If you want to run multiple apps from here, pick any one of them. You will always be able to get back to this screen later.
+On macOS Golden Gate, macOS Tahoe, macOS Sequoia, macOS Sonoma, macOS Ventura, macOS Monterey, macOS Big Sur, and macOS Catalina, Retroactive can unlock Aperture and iPhoto, or install iTunes. Pick the app you want to run. If you want to run multiple apps from here, pick any one of them. You will always be able to get back to this screen later.
 
 ![](screenshots/4.jpg)
 

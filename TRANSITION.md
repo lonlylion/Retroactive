@@ -1,6 +1,6 @@
 ## Transition from Retroactive to supported apps
 
-Retroactive has been discontinued, and does not support macOS Sequoia or later. You should transition from Retroactive to a wide range of supported apps, many of which are built into macOS or free to download.
+With [Rosetta 2 being removed](https://support.apple.com/102527), Retroactive will not support macOS 28 or later. You should transition from Retroactive to a wide range of supported apps, many of which are built into macOS or free to download.
 
 #### iTunes
 
